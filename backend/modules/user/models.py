@@ -14,6 +14,11 @@ POSITION_CHOICES= [
     ('C', 'Center'),
 ]
 
+GENDER_CHOICES = [
+    ('M', 'Male'),
+    ('F', 'Female'),
+]
+
 def user_directory_path(instance, filename):
     return f'user_{instance.public_id}/{filename}'
 
@@ -55,6 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='following')
+    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     
     EMAIL_FILED = 'email'
     USERNAME_FIELD = 'username'
