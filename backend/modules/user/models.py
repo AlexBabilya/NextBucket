@@ -1,7 +1,9 @@
 import uuid
 
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
+from ..abstract.models import AbstractManager
 
 POSITION_CHOICES= [
     ('NO', 'Not Selected'),
@@ -14,6 +16,10 @@ POSITION_CHOICES= [
 
 def user_directory_path(instance, filename):
     return f'user_{instance.public_id}/{filename}'
+
+
+class UserManager(BaseUserManager, AbstractManager):
+    pass
 
 
 class User(AbstractBaseUser, PermissionsMixin):
