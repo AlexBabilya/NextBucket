@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     
     'modules.user',
     'modules.abstract',
+    'modules.auth',
 ]
 
 MIDDLEWARE = [
