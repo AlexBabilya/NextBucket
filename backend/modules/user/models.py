@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-from ..abstract.models import AbstractManager
+from modules.abstract.models import AbstractManager
 
 POSITION_CHOICES= [
     ('NO', 'Not Selected'),
@@ -91,6 +91,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='following')
+    courts_liked = models.ManyToManyField('modules_court.Court', related_name='liked_by')
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES, blank=True, null=True)
     
     USERNAME_FIELD = "username"
@@ -104,4 +105,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         return f'{self.first_name} {self.last_name}'
+    
+    def follow_user(self, user):
+        return self.followers.add(user)    
+    
+    def remove_followed_user(self, user):
+        return self.followers.remove(user)
+    
+    def has_followed_user(self, user):
+        return self.followers.filter(pk=user.pk).exists()
+    
+    def like_court(self, court):
+        return self.courts_liked.add(court)    
+    
+    def remove_liked_court(self, court):
+        return self.courts_liked.remove(court)
+    
+    def has_liked_court(self, court):
+        return self.courts_liked.filter(pk=court.pk).exists()
+
     
