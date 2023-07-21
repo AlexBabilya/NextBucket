@@ -35,7 +35,8 @@ class Court(models.Model):
     avatar = models.ImageField(null=True, blank=True, upload_to=court_directory_path)
     latitude = models.CharField(max_length=200,blank=True, null=True)
     longitude = models.CharField(max_length=200,blank=True, null=True)
-
+    creator = models.ForeignKey('modules_user.User', on_delete=models.CASCADE, related_name='courts_created')
+    
     objects = CourtManager()
     
     def __str__(self):
