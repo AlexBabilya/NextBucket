@@ -4,12 +4,13 @@ from rest_framework import status, viewsets
 
 from .models import Court
 from .serializers import CourtSerializer
+from modules.user.permissions import UserPermission
 
 
 class CourtViewSet(viewsets.ModelViewSet):
     http_method_names = ('post', 'get', 'put', 'delete', 'patch')
     serializer_class = CourtSerializer
-    #permission_classes = 
+    permission_classes = UserPermission
     
     def get_queryset(self):
         return Court.objects.all()
