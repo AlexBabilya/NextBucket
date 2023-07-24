@@ -143,6 +143,7 @@ AUTH_USER_MODEL = 'modules_user.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'modules.auth.user_auth_backends.CustomUserAuthenticationBackend',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS':
