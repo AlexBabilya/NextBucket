@@ -22,8 +22,7 @@ class LoginSerializer(TokenObtainPairSerializer):
             if self.user is None:
                 try:
                     self.user = User.objects.get(email=username)
-                    if self.user.check_password(password):
-                        return super().validate(attrs)
+                    self.user.check_password(password) 
                 except User.DoesNotExist:
                     pass
         
@@ -34,7 +33,7 @@ class LoginSerializer(TokenObtainPairSerializer):
 
         if api_settings.UPDATE_LAST_LOGIN:
             update_last_login(None, self.user)
-            
+  
         return {
             "user": UserSerializer(self.user, context=self.context).data,
             "refresh": str(refresh),
