@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 
 from modules.user.serializers import UserSerializer
 from modules.user.models import User
-from .models import Post
+from .models import Court
 
 
 class CourtSerializer(serializers.ModelSerializer):
@@ -22,8 +22,8 @@ class CourtSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
        rep = super().to_representation(instance)
-       author = User.objects.get_object_by_public_id(rep["author"])
-       rep["author"] = UserSerializer(author, context=self.context).data
+       author = User.objects.get_object_by_public_id(rep["creator"])
+       rep["creator"] = UserSerializer(author, context=self.context).data
        return rep
     
     def update(self, instance, validated_data):
@@ -43,8 +43,9 @@ class CourtSerializer(serializers.ModelSerializer):
         return instance.liked_by.count()
 
     class Meta:
-        model = Post
+        model = Court
         fields = [
+            'creator',
             'public_id',
             'name',
             'created_at',
@@ -63,7 +64,6 @@ class CourtSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             'public_id',
-            'name',
             'created_at',
             'updated_at',
             'liked',

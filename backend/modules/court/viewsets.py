@@ -10,7 +10,7 @@ from modules.user.permissions import UserPermission
 class CourtViewSet(viewsets.ModelViewSet):
     http_method_names = ('post', 'get', 'put', 'delete', 'patch')
     serializer_class = CourtSerializer
-    permission_classes = UserPermission
+    permission_classes = (UserPermission, )
     
     def get_queryset(self):
         return Court.objects.all()

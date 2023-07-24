@@ -6,7 +6,7 @@ from modules.abstract.models import AbstractManager
 def court_directory_path(instance, filename):
     return f'court_{instance.public_id}/{filename}'
 
-class CourtManager(models.Manager):
+class CourtManager(AbstractManager):
     pass
 
 
@@ -20,7 +20,6 @@ class Court(models.Model):
     )
     name = models.CharField(
         max_length=255, 
-        unique=True, 
         db_index=True, 
         blank=False, 
         null=False
@@ -33,8 +32,8 @@ class Court(models.Model):
     country = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True, upload_to=court_directory_path)
-    latitude = models.CharField(max_length=200,blank=True, null=True)
-    longitude = models.CharField(max_length=200,blank=True, null=True)
+    latitude = models.CharField(max_length=200,blank=False, null=False)
+    longitude = models.CharField(max_length=200,blank=False, null=False)
     creator = models.ForeignKey('modules_user.User', on_delete=models.CASCADE, related_name='courts_created')
     
     objects = CourtManager()
